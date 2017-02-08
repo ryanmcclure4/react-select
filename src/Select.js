@@ -50,7 +50,7 @@ const Select = React.createClass({
 		arrowRenderer: React.PropTypes.func,				// Create drop-down caret element
 		autoBlur: React.PropTypes.bool,             // automatically blur the component when an option is selected
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
-		alwaysOpen: React.PropTypes.bool,           // keeps dropdown always open
+		alwaysOpen: React.PropTypes.bool,           // keeps menu always open
 		autosize: React.PropTypes.bool,             // whether to enable autosizing or not
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
 		backspaceToRemoveMessage: React.PropTypes.string,  // Message to use for screenreaders to press backspace to remove the current item - {label} is replaced with the item label
@@ -335,7 +335,7 @@ const Select = React.createClass({
 		if (!this.props.searchable) {
 			this.focus();
 			return this.setState({
-				isOpen: !this.state.isOpen || this.props.alwaysOpen,
+				isOpen: !this.state.isOpen,
 			});
 		}
 
@@ -421,7 +421,7 @@ const Select = React.createClass({
 		}
 		this.setState({
 			isFocused: true,
-			isOpen: isOpen || this.props.alwaysOpen
+			isOpen: isOpen
 		});
 		this._openAfterFocus = false;
 	},
@@ -968,7 +968,7 @@ const Select = React.createClass({
 	},
 
 	renderMenu (options, valueArray, focusedOption) {
-		if (options && options.length) {
+		if ((options && options.length) || this.props.alwaysOpen) {
 			return this.props.menuRenderer({
 				focusedOption,
 				focusOption: this.focusOption,

@@ -1052,6 +1052,14 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+var _classnames = require('classnames');
+
+var _classnames2 = _interopRequireDefault(_classnames);
+
+var _reactInputAutosize = require('react-input-autosize');
+
+var _reactInputAutosize2 = _interopRequireDefault(_reactInputAutosize);
+
 var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
@@ -1060,17 +1068,13 @@ var _reactDom = require('react-dom');
 
 var _reactDom2 = _interopRequireDefault(_reactDom);
 
-var _reactInputAutosize = require('react-input-autosize');
-
-var _reactInputAutosize2 = _interopRequireDefault(_reactInputAutosize);
-
-var _classnames = require('classnames');
-
-var _classnames2 = _interopRequireDefault(_classnames);
-
 var _utilsDefaultArrowRenderer = require('./utils/defaultArrowRenderer');
 
 var _utilsDefaultArrowRenderer2 = _interopRequireDefault(_utilsDefaultArrowRenderer);
+
+var _utilsDefaultClearRenderer = require('./utils/defaultClearRenderer');
+
+var _utilsDefaultClearRenderer2 = _interopRequireDefault(_utilsDefaultClearRenderer);
 
 var _utilsDefaultFilterOptions = require('./utils/defaultFilterOptions');
 
@@ -1079,10 +1083,6 @@ var _utilsDefaultFilterOptions2 = _interopRequireDefault(_utilsDefaultFilterOpti
 var _utilsDefaultMenuRenderer = require('./utils/defaultMenuRenderer');
 
 var _utilsDefaultMenuRenderer2 = _interopRequireDefault(_utilsDefaultMenuRenderer);
-
-var _utilsDefaultClearRenderer = require('./utils/defaultClearRenderer');
-
-var _utilsDefaultClearRenderer2 = _interopRequireDefault(_utilsDefaultClearRenderer);
 
 var _Async = require('./Async');
 
@@ -1132,6 +1132,7 @@ var Select = _react2['default'].createClass({
 		arrowRenderer: _react2['default'].PropTypes.func, // Create drop-down caret element
 		autoBlur: _react2['default'].PropTypes.bool, // automatically blur the component when an option is selected
 		autofocus: _react2['default'].PropTypes.bool, // autofocus the component on mount
+		alwaysOpen: _react2['default'].PropTypes.bool, // keeps dropdown always open
 		autosize: _react2['default'].PropTypes.bool, // whether to enable autosizing or not
 		backspaceRemoves: _react2['default'].PropTypes.bool, // whether backspace removes an item if there is no text input
 		backspaceToRemoveMessage: _react2['default'].PropTypes.string, // Message to use for screenreaders to press backspace to remove the current item - {label} is replaced with the item label
@@ -1204,6 +1205,7 @@ var Select = _react2['default'].createClass({
 			addLabelText: 'Add "{label}"?',
 			arrowRenderer: _utilsDefaultArrowRenderer2['default'],
 			autosize: true,
+			alwaysOpen: false,
 			backspaceRemoves: true,
 			backspaceToRemoveMessage: 'Press backspace to remove {label}',
 			clearable: true,
@@ -1415,7 +1417,7 @@ var Select = _react2['default'].createClass({
 		if (!this.props.searchable) {
 			this.focus();
 			return this.setState({
-				isOpen: !this.state.isOpen
+				isOpen: !this.state.isOpen || this.props.alwaysOpen
 			});
 		}
 
@@ -1501,7 +1503,7 @@ var Select = _react2['default'].createClass({
 		}
 		this.setState({
 			isFocused: true,
-			isOpen: isOpen
+			isOpen: isOpen || this.props.alwaysOpen
 		});
 		this._openAfterFocus = false;
 	},
@@ -2188,7 +2190,7 @@ var Select = _react2['default'].createClass({
 
 		var valueArray = this.getValueArray(this.props.value);
 		var options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
-		var isOpen = this.state.isOpen;
+		var isOpen = this.state.isOpen || this.props.alwaysOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		var focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 

@@ -4,16 +4,15 @@
   http://jedwatson.github.io/react-select
 */
 
+import classNames from 'classnames';
+import AutosizeInput from 'react-input-autosize';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import AutosizeInput from 'react-input-autosize';
-import classNames from 'classnames';
 
 import defaultArrowRenderer from './utils/defaultArrowRenderer';
+import defaultClearRenderer from './utils/defaultClearRenderer';
 import defaultFilterOptions from './utils/defaultFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
-import defaultClearRenderer from './utils/defaultClearRenderer';
-
 import Async from './Async';
 import AsyncCreatable from './AsyncCreatable';
 import Creatable from './Creatable';
@@ -51,6 +50,7 @@ const Select = React.createClass({
 		arrowRenderer: React.PropTypes.func,				// Create drop-down caret element
 		autoBlur: React.PropTypes.bool,             // automatically blur the component when an option is selected
 		autofocus: React.PropTypes.bool,            // autofocus the component on mount
+		alwaysOpen: React.PropTypes.bool,           // keeps dropdown always open
 		autosize: React.PropTypes.bool,             // whether to enable autosizing or not
 		backspaceRemoves: React.PropTypes.bool,     // whether backspace removes an item if there is no text input
 		backspaceToRemoveMessage: React.PropTypes.string,  // Message to use for screenreaders to press backspace to remove the current item - {label} is replaced with the item label
@@ -123,6 +123,7 @@ const Select = React.createClass({
 			addLabelText: 'Add "{label}"?',
 			arrowRenderer: defaultArrowRenderer,
 			autosize: true,
+			alwaysOpen: false,
 			backspaceRemoves: true,
 			backspaceToRemoveMessage: 'Press backspace to remove {label}',
 			clearable: true,
@@ -334,7 +335,7 @@ const Select = React.createClass({
 		if (!this.props.searchable) {
 			this.focus();
 			return this.setState({
-				isOpen: !this.state.isOpen,
+				isOpen: !this.state.isOpen || this.props.alwaysOpen,
 			});
 		}
 
@@ -420,7 +421,7 @@ const Select = React.createClass({
 		}
 		this.setState({
 			isFocused: true,
-			isOpen: isOpen
+			isOpen: isOpen || this.props.alwaysOpen
 		});
 		this._openAfterFocus = false;
 	},
@@ -1057,7 +1058,7 @@ const Select = React.createClass({
 	render () {
 		let valueArray = this.getValueArray(this.props.value);
 		let options = this._visibleOptions = this.filterOptions(this.props.multi ? this.getValueArray(this.props.value) : null);
-		let isOpen = this.state.isOpen;
+		let isOpen = this.state.isOpen || this.props.alwaysOpen;
 		if (this.props.multi && !options.length && valueArray.length && !this.state.inputValue) isOpen = false;
 		const focusedOptionIndex = this.getFocusableOptionIndex(valueArray[0]);
 

@@ -341,10 +341,6 @@ var _react = (typeof window !== "undefined" ? window['React'] : typeof global !=
 
 var _react2 = _interopRequireDefault(_react);
 
-var _Select = require('./Select');
-
-var _Select2 = _interopRequireDefault(_Select);
-
 var _utilsDefaultFilterOptions = require('./utils/defaultFilterOptions');
 
 var _utilsDefaultFilterOptions2 = _interopRequireDefault(_utilsDefaultFilterOptions);
@@ -352,6 +348,10 @@ var _utilsDefaultFilterOptions2 = _interopRequireDefault(_utilsDefaultFilterOpti
 var _utilsDefaultMenuRenderer = require('./utils/defaultMenuRenderer');
 
 var _utilsDefaultMenuRenderer2 = _interopRequireDefault(_utilsDefaultMenuRenderer);
+
+var _Select = require('./Select');
+
+var _Select2 = _interopRequireDefault(_Select);
 
 var Creatable = _react2['default'].createClass({
 	displayName: 'CreatableSelect',
@@ -540,10 +540,9 @@ var Creatable = _react2['default'].createClass({
 			this.createNewOption();
 
 			// Prevent decorated Select from doing anything additional with this keyDown event
-			event.preventDefault();
 		} else if (onInputKeyDown) {
-			onInputKeyDown(event);
-		}
+				onInputKeyDown(event);
+			}
 	},
 
 	onOptionSelect: function onOptionSelect(option, event) {

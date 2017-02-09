@@ -1,7 +1,8 @@
 import React from 'react';
-import Select from './Select';
+
 import defaultFilterOptions from './utils/defaultFilterOptions';
 import defaultMenuRenderer from './utils/defaultMenuRenderer';
+import Select from './Select';
 
 const Creatable = React.createClass({
 	displayName: 'CreatableSelect',
@@ -20,9 +21,9 @@ const Creatable = React.createClass({
 		// ({ option: Object, options: Array, labelKey: string, valueKey: string }): boolean
 		isOptionUnique: React.PropTypes.func,
 
-	    // Determines if the current input text represents a valid option.
-	    // ({ label: string }): boolean
-	    isValidNewOption: React.PropTypes.func,
+    // Determines if the current input text represents a valid option.
+    // ({ label: string }): boolean
+    isValidNewOption: React.PropTypes.func,
 
 		// See Select.propTypes.menuRenderer
 		menuRenderer: React.PropTypes.any,
@@ -189,7 +190,6 @@ const Creatable = React.createClass({
 			this.createNewOption();
 
 			// Prevent decorated Select from doing anything additional with this keyDown event
-			event.preventDefault();
 		} else if (onInputKeyDown) {
 			onInputKeyDown(event);
 		}

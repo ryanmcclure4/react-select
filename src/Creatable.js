@@ -190,6 +190,7 @@ const Creatable = React.createClass({
 			this.createNewOption();
 
 			// Prevent decorated Select from doing anything additional with this keyDown event
+			event.preventDefault();
 		} else if (onInputKeyDown) {
 			onInputKeyDown(event);
 		}
